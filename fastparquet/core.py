@@ -264,7 +264,8 @@ def read_col(column, schema_helper, infile, use_cat=False,
         elif defi is not None:
             max_defi = schema_helper.max_definition_level(cmd.path_in_schema)
             part = assign[num:num+len(defi)]
-            part[defi != max_defi] = my_nan
+            if assign.dtype.kind != 'i':
+                part[defi != max_defi] = my_nan
             if d and not use_cat:
                 part[defi == max_defi] = dic[val]
             elif do_convert:
